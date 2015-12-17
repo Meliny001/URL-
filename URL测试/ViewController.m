@@ -7,6 +7,9 @@
 //
 
 #import "ViewController.h"
+#import "AFNetworking.h"
+
+#define kZGDouguoHomeURL @"http://webapi.bbs.szhome.com/api/bbs/getbbsnav_v3?IsNight=0"
 
 @interface ViewController ()
 
@@ -16,12 +19,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    [self loadData];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)loadData
+{
+    NSString *urlStr = @"http://www.edscw.com/AppShopGoods/FavoriteGoods?gid=27066&";
+    NSDictionary *params = @{@"sign_ran":@"1dd61d52e647b1c969becfbcc075c17d",@"client":@4,@"code":@"c71954e05bdfa0fa"};
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manager POST:kZGDouguoHomeURL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        id json = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"%@",json);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@",error);
+    }];
 }
 
 @end
